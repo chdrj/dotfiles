@@ -6,5 +6,12 @@
 # https://felixkratz.github.io/SketchyBar/config/events#events-and-scripting
 
 if [ "$SENDER" = "front_app_switched" ]; then
-  sketchybar --set $NAME label="$INFO" icon="$($CONFIG_DIR/plugins/icon_map_fn.sh "$INFO")"
+ sketchybar --set "$NAME" label="$INFO"
 fi
+sketchybar --set front_app label.font="Cascadia Code:Bold:14.0"
+# if [ "$SENDER" = "front_app_switched" ]; then
+#   app=$(aerospace list-windows | awk -F'|' '$1 ~ /true/ { gsub(/^ *| *$/, "", $3); print $3 }')
+#   sketchybar --set "$NAME" label="$app"
+# fi
+
+

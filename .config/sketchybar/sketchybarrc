@@ -1,87 +1,139 @@
-#!/bin/bash
-
-source "$CONFIG_DIR/colors.sh" # Loads all defined colors
-
-# This is a demo config to show some of the most important commands more easily.
-# This is meant to be changed and configured, as it is intentionally kept sparse.
-# For a more advanced configuration example see my dotfiles:
-# https://github.com/FelixKratz/dotfiles
+# A simple sketchybar config for aerospace users to get started with
+# Not too different from the base starting config!
 
 PLUGIN_DIR="$CONFIG_DIR/plugins"
-ITEM_DIR="$CONFIG_DIR/items"
+ITEM_DIR="$CONFIG_DIR/items" 
+
+#### Import Colors
+source "$CONFIG_DIR/colors.sh" # Loads all defined colors
 
 ##### Bar Appearance #####
-# Configuring the general appearance of the bar, these are only some of the
-# options available. For all options see:
+# Configuring the general appearance of the bar.
+# These are only some of the options available. For all options see:
 # https://felixkratz.github.io/SketchyBar/config/bar
 # If you are looking for other colors, see the color picker:
 # https://felixkratz.github.io/SketchyBar/config/tricks#color-picker
 
-sketchybar --bar height=37        \
-                 blur_radius=30   \
-                 position=top     \
-                 sticky=off       \
-                 padding_left=10  \
-                 padding_right=10 \
-                 color=$BAR_COLOR
+sketchybar --bar position=top height=40 radius=30 color=$BAR_COLOR #color=0xff001f30 color=0x40000000
 
 ##### Changing Defaults #####
-# We now change some default values that are applied to all further items
+# We now change some default values, which are applied to all further items.
 # For a full list of all available item properties see:
 # https://felixkratz.github.io/SketchyBar/config/items
 
-sketchybar --default icon.font="SF Pro:Semibold:15.0"  \
-                     icon.color=$WHITE                 \
-                     label.font="SF Pro:Semibold:15.0" \
-                     label.color=$WHITE                \
-                     background.color=$ITEM_BG_COLOR       \
-                     background.corner_radius=5            \
-                     background.height=24                  \
-                     padding_left=5                        \
-                     padding_right=5                       \
-                     label.padding_left=4                  \
-                     label.padding_right=10                \
-                     icon.padding_left=10                  \
-                     icon.padding_right=4
-sketchybar --default icon.font="Hack Nerd Font:Regular:16.0"  \
-                     icon.color=$WHITE                 \
-                     label.font="Hack Nerd Font:Regular:15.0" \
-                     label.color=$WHITE                \
-                     background.color=$ITEM_BG_COLOR       \
-                     background.corner_radius=5            \
-                     background.height=24                  \
-                     padding_left=5                        \
-                     padding_right=5                       \
-                     label.padding_left=4                  \
-                     label.padding_right=10                \
-                     icon.padding_left=10                  \
-                     icon.padding_right=4
-sketchybar --default icon.font="Hack Nerd Font:Regular:16.0"  \
-                     label.font="Hack Nerd Font:Regular:15.0" \
-                     background.height=18                  \
-                     padding_left=2                        \
-                     padding_right=2                       \
-                     label.padding_left=2                  \
-                     label.padding_right=2                 \
-                     icon.padding_left=2                   \
-                     icon.padding_right=2
+default=(
+  padding_left=5
+  padding_right=5
+  #icon.font="Hack Nerd Font:Bold:17.0"
+  icon.font="Cascadia Code:Bold:14.0"
+  #label.font="SF Pro:Semibold:17.0"
+  label.font="Cascadia Code:Bold:14.0"
+  #icon.color=0xffffffff
+  icon.color=$WHITE
+  #label.color=0xffffffff
+  label.color=$WHITE
+  icon.padding_left=4
+  icon.padding_right=4
+  label.padding_left=4
+  label.padding_right=4
+  updates=on
+)
+sketchybar --default "${default[@]}"
 
-# -- Left Side Items --
-source $ITEM_DIR/spaces.sh
-source $ITEM_DIR/front_app.sh
+##### Adding aeropsace layouts #####
 
-# -- Right Side Of Notch Items --
-source $ITEM_DIR/media.sh
+# Add the aerospace_workspace_change event we specified in aerospace.toml
+sketchybar --add event aerospace_workspace_change
 
-# -- Right Side Items --
-source $ITEM_DIR/calendar.sh
-source $ITEM_DIR/volume.sh
-source $ITEM_DIR/battery.sh
-source $ITEM_DIR/cpu.sh
+# Add workspaces for all monitors
+for monitor in $(aerospace list-monitors --format "%{monitor-appkit-nsscreen-screens-id}"); do
+  for sid in $(aerospace list-workspaces --monitor "$monitor"); do
+    # Determine which display this workspace should be shown on
+    display_id="1"
+    if [ "$sid" -ge 8 ] && [ "$sid" -le 10 ]; then
+      display_id="2"
+    fi
+    
+    sketchybar --add item space.$sid left \
+      --set space.$sid display="$display_id" \
+      --subscribe space.$sid aerospace_workspace_change \
+      --set space.$sid \
+      drawing=on \
+      background.color=0x44ffffff \
+      background.corner_radius=5 \
+      background.drawing=on \
+      background.border_color=0xAAFFFFFF \
+      background.border_width=0 \
+      background.height=25 \
+      icon="$sid" \
+      icon.padding_left=10 \
+      icon.shadow.distance=4 \
+      icon.shadow.color=0xA0000000 \
+      label.font="sketchybar-app-font:Regular:16.0" \
+      label.padding_right=20 \
+      label.padding_left=0 \
+      label.y_offset=-1 \
+      label.shadow.drawing=off \
+      label.shadow.color=0xA0000000 \
+      label.shadow.distance=4 \
+      click_script="aerospace workspace $sid" \
+      script="$CONFIG_DIR/plugins/aerospace.sh $sid"
+  done
+done
+
+# Load Icons on startup for all monitors
+for monitor in $(aerospace list-monitors); do
+  for sid in $(aerospace list-workspaces --monitor "$monitor" --empty no); do
+    apps=$(aerospace list-windows --workspace "$sid" | awk -F'|' '{gsub(/^ *| *$/, "", $2); print $2}')
+
+    sketchybar --set space.$sid drawing=on
+
+    icon_strip=" "
+    if [ "${apps}" != "" ]; then
+      while read -r app; do
+        icon_strip+=" $($CONFIG_DIR/plugins/icon_map_fn.sh "$app")"
+      done <<<"${apps}"
+    else
+      icon_strip=""
+    fi
+    sketchybar --set space.$sid label="$icon_strip"
+  done
+done
 
 
-##### Finalizing Setup #####
-# The below command is only needed at the end of the initial configuration to
-# force all scripts to run the first time, it should never be run in an item script.
+#front app
+source "$ITEM_DIR/front_app.sh"
 
+
+##### Adding Right Items #####
+# In the same way as the left items we can add items to the right side.
+# Additional position (e.g. center) are available, see:
+# https://felixkratz.github.io/SketchyBar/config/items#adding-items-to-sketchybar
+
+# Some items refresh on a fixed cycle, e.g. the clock runs its script once
+# every 10s. Other gititems respond to events they subscribe to, e.g. the
+# volume.sh script is only executed once an actual change in system audio
+# volume is registered. More info about the event system can be found here:
+# https://felixkratz.github.io/SketchyBar/config/events
+
+sketchybar --add item wifi right \
+           --set wifi script="$PLUGIN_DIR/wifi.sh" \
+                      update_freq=10 \
+           --subscribe wifi system_woke
+
+sketchybar --add item clock right \
+  --set clock update_freq=10 script="$PLUGIN_DIR/clock.sh" \
+  --add item volume right \
+  --set volume script="$PLUGIN_DIR/volume.sh" \
+  --subscribe volume volume_change \
+  --add item battery right \
+  --set battery update_freq=120 script="$PLUGIN_DIR/battery.sh" \
+  --subscribe battery system_woke power_source_change \
+  --add item swap e \
+  icon="" \
+  label.font="Hack Nerd Font:Italic:13.0" \
+  icon.color=0x44FFFFFF \
+  label.color=0x44FFFFFF
+
+##### Force all scripts to run the first time (never do this in a script) #####
 sketchybar --update
