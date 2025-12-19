@@ -5,5 +5,5 @@
 # https://felixkratz.github.io/SketchyBar/config/events#events-and-scripting
 
 #sketchybar --set "$NAME" label="$(date '+%b %e, %-l:%M %p')"
-sketchybar --set "$NAME" label="$(date '+%e - %H:%M')"
+sketchybar --set "$NAME" label="$(date '+%e - %I:%M')"
 
