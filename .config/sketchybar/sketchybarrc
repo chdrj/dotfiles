@@ -14,7 +14,7 @@ source "$CONFIG_DIR/colors.sh" # Loads all defined colors
 # If you are looking for other colors, see the color picker:
 # https://felixkratz.github.io/SketchyBar/config/tricks#color-picker
 
-sketchybar --bar position=top height=40 radius=30 color=$BAR_COLOR #color=0xff001f30 color=0x40000000
+sketchybar --bar position=top height=35 radius=30 color=$BAR_COLOR #color=0xff001f30 color=0x40000000
 
 ##### Changing Defaults #####
 # We now change some default values, which are applied to all further items.
