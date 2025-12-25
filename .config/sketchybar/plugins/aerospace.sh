@@ -5,7 +5,7 @@
 
 if [ "$1" = "$FOCUSED_WORKSPACE" ]; then
   #sketchybar --set $NAME background.color=0xff003547 label.shadow.drawing=on icon.shadow.drawing=on background.border_width=2
-  sketchybar --set $NAME icon="" \
+  sketchybar --set $NAME icon="$1" \
   background.drawing=on label.drawing=off background.color=0xffffffff icon.color=0xff000000 \
   background.corner_radius=4 icon.padding_left=8 \
   icon.padding_right=8 background.border_width=0 \
@@ -15,7 +15,7 @@ else
   background.corner_radius=4 icon.padding_left=8 \
   icon.padding_right=8 background.border_width=0 \
   icon.shadow.drawing=off label.shadow.drawing=off \
-  icon="" label.drawing=off background.color=0x44ffffff \
+  icon="$1" label.drawing=off background.color=0x44ffffff \
   icon.color=0xffffffff drawing=on
 fi
 

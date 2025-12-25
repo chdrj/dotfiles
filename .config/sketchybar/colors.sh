@@ -23,7 +23,7 @@ export WHITE=0xffffffff
 # export ACCENT_COLOR=0xffff2453
 
 # -- Blue Scheme ---
-export BAR_COLOR=0xcc111111
+export BAR_COLOR=0xaa111111
 export ITEM_BG_COLOR=0xff1c4d5f
 export ACCENT_COLOR=0xff15bdf9
 
