@@ -1,8 +1,12 @@
 #!/bin/sh
+
 # Get the current WiFi SSID
-SSID=$(networksetup -getairportnetwork en0 | sed 's/^Current Wi-Fi Network: //')
-if [ "$SSID" = "Wi-Fi power is currently off." ] || [ "$SSID" = "You are not associated with an AirPort network." ]; then
-  sketchybar --set $NAME label="Disconnected" icon=󰖪
+# We use 'ipconfig getsummary' which is faster for status bars
+SSID=$(ipconfig getsummary en0 | awk -F ' SSID : ' '/ SSID : / {print $2}')
+
+# Check if SSID is empty (disconnected)
+if [ "$SSID" = "" ]; then
+  sketchybar --set $NAME icon=󰖪
 else
-  sketchybar --set $NAME label="$SSID" icon=󰖩
+  sketchybar --set $NAME icon=󰖩
 fi
