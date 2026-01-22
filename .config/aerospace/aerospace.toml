@@ -47,7 +47,7 @@ automatically-unhide-macos-hidden-apps = false
 # even when they are invisible.
 # This config version is only available since 'config-version = 2'
 # Fallback value (if you omit the key): persistent-workspaces = []
-persistent-workspaces = ["1", "2", "3", "4", "5", "A", "S", "D"]
+persistent-workspaces = ["1", "2", "3", "4", "5", "6", "7", "A"]
 
 # A callback that runs every time binding mode changes
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -73,9 +73,9 @@ exec-on-workspace-change = ['/bin/bash', '-c', 'sketchybar --trigger aerospace_w
 #                 https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
 [gaps]
     inner.horizontal = 4
-    inner.vertical = 8
+    inner.vertical = 4
     outer.bottom = 8
-    outer.top = 8
+    outer.top = 10
     outer.left = 8
     outer.right = 8
 # 'main' binding mode declaration
@@ -137,9 +137,9 @@ exec-on-workspace-change = ['/bin/bash', '-c', 'sketchybar --trigger aerospace_w
     alt-3 = 'workspace 3'
     alt-4 = 'workspace 4'
     alt-5 = 'workspace 5'
+    alt-6 = 'workspace 6'
+    alt-7 = 'workspace 7'
     alt-a = 'workspace A'
-    alt-s = 'workspace S'
-    alt-d = 'workspace D'
 
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
@@ -148,9 +148,9 @@ exec-on-workspace-change = ['/bin/bash', '-c', 'sketchybar --trigger aerospace_w
     alt-shift-3 = 'move-node-to-workspace 3'
     alt-shift-4 = 'move-node-to-workspace 4'
     alt-shift-5 = 'move-node-to-workspace 5'
+    alt-shift-6 = 'move-node-to-workspace 6'
+    alt-shift-7 = 'move-node-to-workspace 7'
     alt-shift-a = 'move-node-to-workspace A'
-    alt-shift-s = 'move-node-to-workspace S'
-    alt-shift-d = 'move-node-to-workspace D'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
     alt-tab = 'workspace-back-and-forth'
