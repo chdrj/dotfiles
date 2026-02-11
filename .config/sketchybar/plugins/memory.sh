@@ -21,4 +21,4 @@ TOTAL_USED_PAGES=$((PAGES_ACTIVE + PAGES_WIRED + PAGES_COMPRESSED))
 # Convert to GB
 USED_GB=$(awk -v pages="$TOTAL_USED_PAGES" -v size="$PAGE_SIZE" 'BEGIN { printf "%.1f", (pages * size) / 1024 / 1024 / 1024 }')
 
-sketchybar --set $NAME label="${USED_GB}GB/18GB" icon=""
+sketchybar --set $NAME label="${USED_GB}GB/18.0GB" icon=""
