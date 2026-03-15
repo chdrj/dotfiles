@@ -6,4 +6,3 @@
 
 #sketchybar --set "$NAME" label="$(date '+%b %e, %-l:%M %p')"
 sketchybar --set "$NAME" label="$(date '+%e - %I:%M')"
-

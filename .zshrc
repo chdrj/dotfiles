@@ -76,3 +76,7 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+
+export PATH=$PATH:/Users/choidorjbayarkhuu/.spicetify
+
+export PATH="$HOME/.local/bin:$PATH"
