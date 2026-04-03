@@ -9,9 +9,6 @@ if [[ ! -e ~/zsh-autosuggestions ]]; then
   git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions.git ~/zsh-autosuggestions
 fi
 
-# Prints.
-cowsay -f sus "Hello Choidorj"
-
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -42,6 +39,8 @@ web-search
 #zsh
 alias openzs="nvim ~/.zshrc"
 alias sourcezs="source ~/.zshrc"
+# Override the 'clear' command to always show fastfetch at the top
+alias clear="clear && fastfetch"
 
 source $ZSH/oh-my-zsh.sh
 
@@ -80,3 +79,5 @@ unset __conda_setup
 export PATH=$PATH:/Users/choidorjbayarkhuu/.spicetify
 
 export PATH="$HOME/.local/bin:$PATH"
+
+fastfetch
