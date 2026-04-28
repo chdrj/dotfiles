@@ -40,7 +40,7 @@ web-search
 alias openzs="nvim ~/.zshrc"
 alias sourcezs="source ~/.zshrc"
 # Override the 'clear' command to always show fastfetch at the top
-alias clear="clear && fastfetch"
+# alias clear="clear && fastfetch"
 
 source $ZSH/oh-my-zsh.sh
 
@@ -81,3 +81,6 @@ export PATH=$PATH:/Users/choidorjbayarkhuu/.spicetify
 export PATH="$HOME/.local/bin:$PATH"
 
 fastfetch
+
+# Added by Windsurf
+export PATH="/Users/choidorjbayarkhuu/.codeium/windsurf/bin:$PATH"

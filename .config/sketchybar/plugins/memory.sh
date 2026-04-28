@@ -12,4 +12,6 @@ USED_GB=$(vm_stat | awk '
 
 TOTAL_RAM_GB=$(sysctl -n hw.memsize | awk '{printf "%.1f", $1 / 1073741824}')
 
-sketchybar --set $NAME label="${USED_GB}GB/${TOTAL_RAM_GB}GB" icon=""
+sketchybar --set $NAME label="${USED_GB}GB/${TOTAL_RAM_GB}GB" icon=""
+
+

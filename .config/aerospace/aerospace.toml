@@ -72,12 +72,12 @@ exec-on-workspace-change = ['/bin/bash', '-c', 'sketchybar --trigger aerospace_w
 #                 See:
 #                 https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
 [gaps]
-    inner.horizontal = 4
-    inner.vertical = 4
-    outer.bottom = 8
-    outer.top = 8
-    outer.left = 8
-    outer.right = 8
+    inner.horizontal = 2
+    inner.vertical = 2
+    outer.bottom = 0
+    outer.top = 4
+    outer.left = 0
+    outer.right = 0
 # 'main' binding mode declaration
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
 # 'main' binding mode must be always presented
@@ -104,12 +104,12 @@ exec-on-workspace-change = ['/bin/bash', '-c', 'sketchybar --trigger aerospace_w
     # See: https://nikitabobko.github.io/AeroSpace/commands#exec-and-forget
     # You can uncomment the following lines to open up terminal with alt + enter shortcut
     # (like in i3)
-    # alt-enter = '''exec-and-forget osascript -e '
-    # tell application "Terminal"
-    #     do script
-    #     activate
-    # end tell'
-    # '''
+    alt-enter = '''exec-and-forget osascript -e '
+    tell application "kitty"
+        do script
+        activate
+    end tell'
+    '''
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#layout
     alt-slash = 'layout tiles horizontal vertical'
