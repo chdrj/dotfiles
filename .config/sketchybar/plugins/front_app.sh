@@ -1,17 +1,8 @@
 #!/bin/sh
 
-# Some events send additional information specific to the event in the $INFO
-# variable. E.g. the front_app_switched event sends the name of the newly
-# focused application in the $INFO variable:
-# https://felixkratz.github.io/SketchyBar/config/events#events-and-scripting
+# Updates the front_app label when the focused app changes.
+# Font/color are owned by items/front_app.sh and don't need to be reset here.
 
 if [ "$SENDER" = "front_app_switched" ]; then
- sketchybar --set "$NAME" label="$INFO"
+  sketchybar --set "$NAME" label="$INFO"
 fi
-sketchybar --set front_app label.font="Cascadia Code:Bold:14.0"
-# if [ "$SENDER" = "front_app_switched" ]; then
-#   app=$(aerospace list-windows | awk -F'|' '$1 ~ /true/ { gsub(/^ *| *$/, "", $3); print $3 }')
-#   sketchybar --set "$NAME" label="$app"
-# fi
-
-

@@ -1,8 +1,5 @@
 #!/bin/sh
 
-# The $NAME variable is passed from sketchybar and holds the name of
-# the item invoking this script:
-# https://felixkratz.github.io/SketchyBar/config/events#events-and-scripting
-
-#sketchybar --set "$NAME" label="$(date '+%b %e, %-l:%M %p')"
-sketchybar --set "$NAME" label="$(date '+%e - %I:%M')"
+# Day + 12-hour clock. The CONFIG_DIR-aware items file (sketchybarrc)
+# owns the icon/font/colors — this script only sets the live label.
+sketchybar --set "$NAME" label="$(date '+%e · %I:%M')"
