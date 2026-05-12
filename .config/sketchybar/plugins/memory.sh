@@ -1,17 +1,20 @@
 #!/bin/bash
 
-# Memory Used = App Memory + Wired + Compressed (matches Activity Monitor)
-# Single awk pass: parses vm_stat and computes used GB in one shot
-USED_GB=$(vm_stat | awk '
-  /Anonymous pages/              { anon = $3 + 0 }
-  /Pages purgeable/              { purg = $3 + 0 }
-  /Pages wired down/             { wired = $4 + 0 }
-  /Pages occupied by compressor/ { comp = $5 + 0 }
-  END { printf "%.1f", (anon - purg + wired + comp) * 16384 / 1073741824 }
-')
+# Matches Activity Monitor / fastfetch exactly:
+#   used = total_ram - (free - speculative + file_backed) * page_size
+# Reference: fastfetch src/detection/memory/memory_apple.c
+#
+# Single pipeline (one vm_stat + one awk + one sysctl) keeps this lightweight.
+# Page size is parsed from the vm_stat header so it works on both
+# Apple Silicon (16 KiB pages) and Intel (4 KiB pages) Macs.
 
-TOTAL_RAM_GB=$(sysctl -n hw.memsize | awk '{printf "%.1f", $1 / 1073741824}')
-
-sketchybar --set $NAME label="${USED_GB}GB/${TOTAL_RAM_GB}GB" icon=""
-
-
+sketchybar --set "$NAME" icon="" label="$(vm_stat | awk -v total="$(sysctl -n hw.memsize)" '
+  NR == 1 { for (i = 1; i <= NF; i++) if ($i == "of") { page = $(i+1) + 0; break } }
+  /^Pages free:/        { free = $3 + 0 }
+  /^Pages speculative:/ { spec = $3 + 0 }
+  /^File-backed pages:/ { fb   = $3 + 0 }
+  END {
+    used = total - (free - spec + fb) * page
+    printf "%.1fGB/%.0fGB", used / 1073741824, total / 1073741824
+  }
+')" icon=""

@@ -111,10 +111,15 @@ source "$ITEM_DIR/front_app.sh"
 # volume is registered. More info about the event system can be found here:
 # https://felixkratz.github.io/SketchyBar/config/events
 
+# clock_update is fired once per minute boundary by clock_updater.sh
+# so the clock is fully event-driven (no polling via update_freq).
+sketchybar --add event clock_update
+
 sketchybar --add item clock right \
-  --set clock update_freq=10 script="$PLUGIN_DIR/clock.sh" padding_left=0 label.padding_right=8 width=105 \
+  --set clock script="$PLUGIN_DIR/clock.sh" padding_left=0 label.padding_right=8 width=105 \
+  --subscribe clock clock_update system_woke \
   --add item memory right \
-  --set memory update_freq=5 script="$PLUGIN_DIR/memory.sh" padding_right=-4 \
+  --set memory update_freq=30 script="$PLUGIN_DIR/memory.sh" padding_right=-4 \
   icon.font="CaskaydiaCove Nerd Font:Regular:14.0"  \
   --add item wifi right \
   --set wifi script="$PLUGIN_DIR/wifi.sh" icon=􀙇 \
@@ -130,6 +135,13 @@ sketchybar --add item clock right \
   --add item volume right \
   --set volume script="$PLUGIN_DIR/volume.sh" \
   --subscribe volume volume_change
+
+##### Kick off the subscription-based clock updater #####
+# Kill any previously-spawned updater (e.g. on --reload) so we never
+# accumulate multiple background loops, then start a fresh one.
+pkill -f "$PLUGIN_DIR/clock_updater.sh" 2>/dev/null
+"$PLUGIN_DIR/clock_updater.sh" >/dev/null 2>&1 &
+disown
 
 ##### Force all scripts to run the first time (never do this in a script) #####
 sketchybar --update
