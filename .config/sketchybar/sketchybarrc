@@ -152,18 +152,18 @@ sketchybar --add item sep.clock right \
     background.drawing=off
 
 # ── Memory ───────────────────────────────────────────────────
-sketchybar --add item memory right \
-  --set memory \
-    update_freq=15 \
-    script="$PLUGIN_DIR/memory.sh" \
-    icon="" \
-    icon.font="Hack Nerd Font:Bold:14.0" \
-    icon.color=$MEM_ACCENT \
-    icon.padding_left=6 \
-    icon.padding_right=4 \
-    label.font="Hack Nerd Font:Bold:12.0" \
-    label.color=$WHITE \
-    label.padding_right=4
+# sketchybar --add item memory right \
+#  --set memory \
+#    update_freq=15 \
+#    script="$PLUGIN_DIR/memory.sh" \
+#    icon="" \
+#    icon.font="Hack Nerd Font:Bold:14.0" \
+#    icon.color=$MEM_ACCENT \
+#    icon.padding_left=6 \
+#    icon.padding_right=4 \
+#    label.font="Hack Nerd Font:Bold:12.0" \
+#    label.color=$WHITE \
+#    label.padding_right=4
 
 # # ── Separator before memory ──────────────────────────────────
 # sketchybar --add item sep.mem right \
