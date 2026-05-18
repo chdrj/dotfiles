@@ -84,3 +84,5 @@ fastfetch
 
 # Added by Windsurf
 export PATH="/Users/choidorjbayarkhuu/.codeium/windsurf/bin:$PATH"
+export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
+export PATH="/opt/homebrew/opt/ruby@3.3/bin:$PATH"

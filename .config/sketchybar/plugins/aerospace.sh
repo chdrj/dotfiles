@@ -5,11 +5,11 @@ source "$CONFIG_DIR/colors.sh"
 case "$1" in
   1) ICON="󰖟" ;;  # Browser
   2) ICON="󰆍" ;;  # Terminal
-  3) ICON="" ;;  # Code
+  3) ICON="" ;;  # Code
   4) ICON="󰓇" ;;  # Spotify
-  5) ICON="󰙯" ;;  # Discord
-  6) ICON="" ;;  # random
-  7) ICON="󱞂" ;;  # random
+  5) ICON="󱞂" ;;  # Obsidian
+  6) ICON="" ;;  # Discord
+  7) ICON="" ;;  # random
   A) ICON="󰍡" ;;  # Messages
   *) ICON="$1" ;;
 esac
