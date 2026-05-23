@@ -43,5 +43,9 @@ export BAT_CHARGE=0xff8be9fd              # Cyan when plugged in
 export MEM_OK=0xffffb86c                  # Amber default
 export MEM_HIGH=0xffff79c6                # Pink when pressure is high
 
+# Spotify (brand green)
+export SPOTIFY_ACCENT=0xff1ed760
+export SPOTIFY_PAUSED=0xff6272a4
+
 # Legacy variable kept for any item still referencing it
 export ACCENT_COLOR=0xff8be9fd

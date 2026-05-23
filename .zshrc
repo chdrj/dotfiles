@@ -42,6 +42,31 @@ alias sourcezs="source ~/.zshrc"
 # Override the 'clear' command to always show fastfetch at the top
 # alias clear="clear && fastfetch"
 
+# Modern CLI replacements (eza, bat, lazygit)
+alias ls="eza --icons --git --group-directories-first"
+alias ll="eza -lh --icons --git --group-directories-first"
+alias la="eza -lah --icons --git --group-directories-first"
+alias lt="eza --tree --level=2 --icons --git"
+alias cat="bat --paging=never"
+alias lg="lazygit"
+
+# bat: use the gruvbox theme to match kitty
+export BAT_THEME="gruvbox-dark"
+
+# fzf: shell integration (key bindings + completion) + gruvbox palette
+if command -v fzf >/dev/null 2>&1; then
+  source <(fzf --zsh)
+  export FZF_DEFAULT_OPTS="
+    --height 60% --layout=reverse --border=rounded
+    --color=bg+:#3c3836,bg:#282828,spinner:#fabd2f,hl:#83a598
+    --color=fg:#ebdbb2,header:#83a598,info:#8ec07c,pointer:#fabd2f
+    --color=marker:#fb4934,fg+:#ebdbb2,prompt:#fabd2f,hl+:#fb4934"
+  # Use fd/eza for previews when available
+  command -v fd >/dev/null 2>&1 && export FZF_DEFAULT_COMMAND="fd --type f --hidden --follow --exclude .git"
+  export FZF_CTRL_T_OPTS="--preview 'bat --color=always --style=numbers --line-range=:300 {}'"
+  export FZF_ALT_C_OPTS="--preview 'eza --tree --icons --color=always {} | head -100'"
+fi
+
 source $ZSH/oh-my-zsh.sh
 
 [ -f "/Users/choidorjbayarkhuu/.ghcup/env" ] && . "/Users/choidorjbayarkhuu/.ghcup/env" # ghcup-env

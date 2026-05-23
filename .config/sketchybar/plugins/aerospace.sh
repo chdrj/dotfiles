@@ -10,7 +10,11 @@ case "$1" in
   5) ICON="󱞂" ;;  # Obsidian
   6) ICON="" ;;  # Discord
   7) ICON="" ;;  # random
+  8) ICON="" ;;  # random
   A) ICON="󰍡" ;;  # Messages
+  D) ICON="D" ;;  # Monitor 2
+  F) ICON="F" ;;  # Monitor 2
+  S) ICON="S" ;;  # Monitor 2
   *) ICON="$1" ;;
 esac
 

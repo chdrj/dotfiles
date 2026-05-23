@@ -47,7 +47,7 @@ automatically-unhide-macos-hidden-apps = false
 # even when they are invisible.
 # This config version is only available since 'config-version = 2'
 # Fallback value (if you omit the key): persistent-workspaces = []
-persistent-workspaces = ["1", "2", "3", "4", "5", "6", "7", "A"]
+persistent-workspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "A", "D", "F", "S"]
 
 # A callback that runs every time binding mode changes
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -75,9 +75,29 @@ exec-on-workspace-change = ['/bin/bash', '-c', 'sketchybar --trigger aerospace_w
     inner.horizontal = 2
     inner.vertical = 2
     outer.bottom = 4
-    outer.top = 15
+    outer.top = [{ monitor."Built-in" = 15 }, 50]
     outer.left = 4
     outer.right = 4
+
+# Pin workspaces to specific monitors (by index).
+# Numbered workspaces + A live on the built-in (monitor 1).
+# Letter workspaces D/F/S live on the external (monitor 2).
+# If the target monitor is missing, AeroSpace falls back to an available one.
+# See: https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
+[workspace-to-monitor-force-assignment]
+    1 = 1
+    2 = 1
+    3 = 1
+    4 = 1
+    5 = 1
+    6 = 1
+    7 = 1
+    8 = 1
+    A = 1
+    D = 2
+    F = 2
+    S = 2
+
 # 'main' binding mode declaration
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
 # 'main' binding mode must be always presented
@@ -139,7 +159,11 @@ exec-on-workspace-change = ['/bin/bash', '-c', 'sketchybar --trigger aerospace_w
     alt-5 = 'workspace 5'
     alt-6 = 'workspace 6'
     alt-7 = 'workspace 7'
+    alt-8 = 'workspace 8'
     alt-a = 'workspace A'
+    alt-d = 'workspace D'
+    alt-f = 'workspace F'
+    alt-s = 'workspace S'
 
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
@@ -150,7 +174,11 @@ exec-on-workspace-change = ['/bin/bash', '-c', 'sketchybar --trigger aerospace_w
     alt-shift-5 = 'move-node-to-workspace 5'
     alt-shift-6 = 'move-node-to-workspace 6'
     alt-shift-7 = 'move-node-to-workspace 7'
+    alt-shift-8 = 'move-node-to-workspace 8'
     alt-shift-a = 'move-node-to-workspace A'
+    alt-shift-d = 'move-node-to-workspace D'
+    alt-shift-f = 'move-node-to-workspace F'
+    alt-shift-s = 'move-node-to-workspace S'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
     alt-tab = 'workspace-back-and-forth'
