@@ -123,6 +123,14 @@ source "$ITEM_DIR/front_app.sh"
 sketchybar --add event clock_update
 
 # ── Clock (rightmost capsule) ─────────────────────────────────
+#    click_script="$PLUGIN_DIR/calendar.sh" \
+#    popup.background.color=$BAR_COLOR \
+#    popup.background.border_color=$BAR_BORDER \
+#    popup.background.border_width=1 \
+#    popup.background.corner_radius=12 \
+#    popup.horizontal=off \
+#    popup.align=center \
+#    popup.y_offset=4 \
 sketchybar --add item clock right \
   --set clock \
     padding_left=6 \
@@ -144,6 +152,18 @@ sketchybar --add item clock right \
     background.height=26 \
     width=120 \
   --subscribe clock clock_update system_woke
+
+# ── Calendar popup lines (children of clock's popup) ────────
+#for i in 1 2 3 4 5 6 7 8; do
+#  sketchybar --add item cal.line.$i popup.clock \
+#    --set cal.line.$i \
+#      label.font="Hack Nerd Font Mono:Regular:13.0" \
+#      label.color=$WHITE \
+#      label.padding_left=14 \
+#      label.padding_right=14 \
+#      label.align=center \
+#      background.drawing=off
+#done
 
 # ── Memory ───────────────────────────────────────────────────
 # sketchybar --add item memory right \
@@ -210,7 +230,7 @@ sketchybar --add item volume right \
     label.color=$WHITE \
   --subscribe volume volume_change
 
-  # ── Spotify now-playing (left, after front app) ──────────────
+  # ── Spotify now-playing (right) ──────────────
 sketchybar --add item spotify right \
   --set spotify \
     padding_left=6 \

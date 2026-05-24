@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+
+# ─── tmux sessionizer ─────────────────────────────────────────
+# Fuzzy-find a project directory and switch to (or create) a tmux
+# session for it. Inspired by ThePrimeagen's classic script.
+#
+# Bound to:
+#   • Ctrl-f in zsh (see ~/.zshrc)
+#   • <prefix>+f in tmux (see ~/.config/tmux/tmux.conf)
+
+# Project directories to search at depth 1-2 (only existing ones used).
+SEARCH_DIRS=()
+for dir in ~/code ~/dotfiles ~/Desktop; do
+  [ -d "$dir" ] && SEARCH_DIRS+=("$dir")
+done
+
+# Bail if nothing to search
+if [ ${#SEARCH_DIRS[@]} -eq 0 ]; then
+  echo "tmux-sessionizer: no search dirs exist. Edit SEARCH_DIRS in this script." >&2
+  exit 1
+fi
+
+if [[ $# -eq 1 ]]; then
+  selected="$1"
+else
+  selected=$(find "${SEARCH_DIRS[@]}" -mindepth 1 -maxdepth 2 -type d 2>/dev/null \
+             | fzf --prompt="project> " --height=60% --reverse)
+fi
+
+[[ -z "$selected" ]] && exit 0
+
+# tmux session names can't contain dots or spaces — sanitize.
+selected_name=$(basename "$selected" | tr '. ' '__')
+tmux_running=$(pgrep -x tmux)
+
+# Not in tmux and no server: start fresh.
+if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
+  tmux new-session -s "$selected_name" -c "$selected"
+  exit 0
+fi
+
+# Server up: create the session detached if it doesn't exist yet.
+if ! tmux has-session -t="$selected_name" 2>/dev/null; then
+  tmux new-session -ds "$selected_name" -c "$selected"
+fi
+
+# Switch into the session (attach from outside, switch-client from inside).
+if [[ -z $TMUX ]]; then
+  tmux attach-session -t "$selected_name"
+else
+  tmux switch-client -t "$selected_name"
+fi

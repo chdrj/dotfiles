@@ -53,6 +53,21 @@ alias lg="lazygit"
 # bat: use the gruvbox theme to match kitty
 export BAT_THEME="gruvbox-dark"
 
+# Custom scripts live in ~/dotfiles/bin
+export PATH="$HOME/dotfiles/bin:$PATH"
+
+# zoxide: smart `cd` that learns your habits
+# `z some-substring` jumps to the most-visited matching directory
+# `zi` opens an interactive fzf picker over your frecency list
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init zsh)"
+fi
+
+# Ctrl-f → tmux sessionizer (also bound to prefix+f inside tmux)
+if command -v tmux-sessionizer >/dev/null 2>&1; then
+  bindkey -s '^f' 'tmux-sessionizer\n'
+fi
+
 # fzf: shell integration (key bindings + completion) + gruvbox palette
 if command -v fzf >/dev/null 2>&1; then
   source <(fzf --zsh)
@@ -111,3 +126,6 @@ fastfetch
 export PATH="/Users/choidorjbayarkhuu/.codeium/windsurf/bin:$PATH"
 export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
 export PATH="/opt/homebrew/opt/ruby@3.3/bin:$PATH"
+
+# opencode
+export PATH=/Users/choidorjbayarkhuu/.opencode/bin:$PATH
