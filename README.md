@@ -2,7 +2,7 @@
 
 Personal macOS setup. Keyboard-driven, tiling, terminal-first.
 
-**Stack:** [AeroSpace](https://github.com/nikitabobko/AeroSpace) (WM) · [SketchyBar](https://github.com/FelixKratz/SketchyBar) (bar) · [JankyBorders](https://github.com/FelixKratz/JankyBorders) (focus border) · [Kitty](https://sw.kovidgoyal.net/kitty/) (terminal) · [LazyVim](https://www.lazyvim.org/) (editor) · [tmux](https://github.com/tmux/tmux) · [Karabiner](https://karabiner-elements.pqrs.org/) (Caps→Hyper) · zsh + [Powerlevel10k](https://github.com/romkatv/powerlevel10k) · [fastfetch](https://github.com/fastfetch-cli/fastfetch)
+**Stack:** [AeroSpace](https://github.com/nikitabobko/AeroSpace) (WM) · [SketchyBar](https://github.com/FelixKratz/SketchyBar) (bar) · [JankyBorders](https://github.com/FelixKratz/JankyBorders) (focus border) · [Kitty](https://sw.kovidgoyal.net/kitty/) (terminal) · [LazyVim](https://www.lazyvim.org/) (editor) · [tmux](https://github.com/tmux/tmux) · [Karabiner](https://karabiner-elements.pqrs.org/) (Caps→Hyper) · zsh + [Starship](https://starship.rs/) (prompt) · [fastfetch](https://github.com/fastfetch-cli/fastfetch)
 
 Deployed into `$HOME` with [GNU Stow](https://www.gnu.org/software/stow/).
 
@@ -23,6 +23,7 @@ dotfiles/
     ├── kitty/                 # gruvbox theme
     ├── nvim/                  # LazyVim
     ├── sketchybar/            # sketchybarrc + items/ + plugins/
+    ├── starship.toml          # zsh prompt (gruvbox)
     └── tmux/
 ```
 
@@ -36,7 +37,7 @@ dotfiles/
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 brew tap FelixKratz/formulae
-brew install sketchybar borders fastfetch stow tmux \
+brew install sketchybar borders fastfetch stow tmux starship \
              fd ripgrep zoxide eza bat fzf lazygit imagemagick
 brew install --cask nikitabobko/tap/aerospace kitty karabiner-elements
 
@@ -51,9 +52,9 @@ brew install --cask \
 
 ```bash
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $ZSH/custom/themes/powerlevel10k
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH/custom/plugins/zsh-syntax-highlighting
 # zsh-autosuggestions is auto-cloned by .zshrc on first run.
+# Prompt is Starship (installed via brew above); config lives at .config/starship.toml.
 ```
 
 ### 3. Stow the repo
@@ -64,6 +65,7 @@ git clone https://github.com/chdrj/dotfiles.git ~/dotfiles
 # Back up anything that would conflict.
 mkdir -p ~/dotfiles-backup
 [ -f ~/.zshrc ] && mv ~/.zshrc ~/dotfiles-backup/
+[ -f ~/.config/starship.toml ] && mv ~/.config/starship.toml ~/dotfiles-backup/
 for d in aerospace borders fastfetch karabiner kitty nvim sketchybar tmux; do
   [ -e ~/.config/$d ] && mv ~/.config/$d ~/dotfiles-backup/
 done
@@ -79,7 +81,6 @@ open -a AeroSpace
 brew services start sketchybar
 open -a "Karabiner-Elements"   # grant Input Monitoring on first launch
 exec zsh
-p10k configure                 # optional, writes ~/.p10k.zsh (untracked)
 ```
 
 ---
@@ -91,10 +92,9 @@ p10k configure                 # optional, writes ~/.p10k.zsh (untracked)
 | Reload SketchyBar | `sketchybar --reload` |
 | Reload AeroSpace | `aerospace reload-config` |
 | Reload zsh | `exec zsh` |
-| Hyper-key launchers | `Hyper+T` kitty · `Hyper+B` Brave · `Hyper+W` Windsurf · `Hyper+S` Spotify |
+| Hyper-key launchers | `Hyper+T` kitty · `Hyper+B` Vivaldi · `Hyper+S` Spotify |
 | tmux sessionizer | `Ctrl-f` (zsh) or `prefix+f` (tmux) |
 | Smart cd | `z <substring>` |
-| Calendar dropdown | click the clock pill |
 
 ---
 
@@ -108,4 +108,4 @@ p10k configure                 # optional, writes ~/.p10k.zsh (untracked)
 
 ## Credits
 
-[AeroSpace](https://github.com/nikitabobko/AeroSpace) · [SketchyBar](https://github.com/FelixKratz/SketchyBar) · [JankyBorders](https://github.com/FelixKratz/JankyBorders) · [LazyVim](https://github.com/LazyVim/LazyVim) · [sketchybar-app-font](https://github.com/kvndrsslr/sketchybar-app-font) · [Powerlevel10k](https://github.com/romkatv/powerlevel10k)
+[AeroSpace](https://github.com/nikitabobko/AeroSpace) · [SketchyBar](https://github.com/FelixKratz/SketchyBar) · [JankyBorders](https://github.com/FelixKratz/JankyBorders) · [LazyVim](https://github.com/LazyVim/LazyVim) · [sketchybar-app-font](https://github.com/kvndrsslr/sketchybar-app-font)

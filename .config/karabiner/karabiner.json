@@ -28,7 +28,7 @@
                         ]
                     },
                     {
-                        "description": "Hyper-key app launchers (T=kitty, B=Brave, W=Windsurf, S=Spotify)",
+                        "description": "Hyper-key app launchers (T=kitty, B=Browser, S=Spotify)",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -51,19 +51,7 @@
                                     }
                                 },
                                 "to": [
-                                    { "shell_command": "open -a 'Brave Browser'" }
-                                ]
-                            },
-                            {
-                                "type": "basic",
-                                "from": {
-                                    "key_code": "w",
-                                    "modifiers": {
-                                        "mandatory": ["left_command", "left_control", "left_option", "left_shift"]
-                                    }
-                                },
-                                "to": [
-                                    { "shell_command": "open -a 'Windsurf'" }
+                                    { "shell_command": "open -a 'Vivaldi'" }
                                 ]
                             },
                             {

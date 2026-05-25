@@ -28,9 +28,11 @@ export WS_INACTIVE_FG=0xfff8f8f2
 export APP_ACCENT=0xff50fa7b              # Mint — front app
 export CLOCK_ACCENT=0xfff8f8f2            # Cream — clock
 export MEM_ACCENT=0xffffb86c              # Amber — memory
-export WIFI_ACCENT=0xff8be9fd             # Cyan — wifi connected
+#export WIFI_ACCENT=0xff8be9fd             # Cyan — wifi connected
+export WIFI_ACCENT=0xff8ec07c
 export WIFI_OFF=0xff6272a4                # Comment-blue — wifi off
-export VOL_ACCENT=0xffbd93f9              # Violet — volume
+#export VOL_ACCENT=0xffbd93f9              # Violet — volume
+export VOL_ACCENT=0xff458588
 export VOL_MUTE=0xff6272a4                # Muted volume
 
 # Battery thresholds
