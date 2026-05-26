@@ -74,6 +74,31 @@ alias lt="eza --tree --level=2 --icons --git"
 alias cat="bat --paging=never"
 alias lg="lazygit"
 
+# btop: pretty system monitor (gruvbox theme via ~/.config/btop/btop.conf)
+alias top="btop"
+
+# yazi: terminal file manager. `yy` exits to the directory you last navigated
+# to (the bare `yazi` command leaves you in your original cwd on quit).
+if command -v yazi >/dev/null 2>&1; then
+  function yy() {
+    local tmp cwd
+    tmp="$(mktemp -t yazi-cwd.XXXXXX)"
+    yazi "$@" --cwd-file="$tmp"
+    if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+      builtin cd -- "$cwd"
+    fi
+    rm -f -- "$tmp"
+  }
+fi
+
+# gh: GitHub CLI shortcuts
+if command -v gh >/dev/null 2>&1; then
+  alias ghpr="gh pr create --web"
+  alias ghprs="gh pr status"
+  alias ghv="gh repo view --web"
+  alias ghrun="gh run watch"
+fi
+
 [ -f "/Users/choidorjbayarkhuu/.ghcup/env" ] && . "/Users/choidorjbayarkhuu/.ghcup/env" # ghcup-env
 
 # Added by Antigravity

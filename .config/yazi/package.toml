@@ -1,0 +1,12 @@
+"$schema" = "https://yazi-rs.github.io/schemas/package.json"
+
+# Run `ya pkg install` once to materialise these into ./flavors/ and ./plugins/.
+# Update later with `ya pkg upgrade`.
+
+[flavor]
+deps = [
+  { use = "yazi-rs/flavors:gruvbox-dark" },
+]
+
+[plugin]
+deps = []

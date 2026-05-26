@@ -1,0 +1,10 @@
+"$schema" = "https://yazi-rs.github.io/schemas/theme.json"
+
+# Theme is provided by the gruvbox-dark flavor.
+# Install once after `brew install yazi`:
+#   ya pkg add yazi-rs/flavors:gruvbox-dark
+# See package.toml in this directory.
+
+[flavor]
+dark  = "gruvbox-dark"
+light = "gruvbox-dark"

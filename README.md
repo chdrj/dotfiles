@@ -2,7 +2,7 @@
 
 Personal macOS setup. Keyboard-driven, tiling, terminal-first.
 
-**Stack:** [AeroSpace](https://github.com/nikitabobko/AeroSpace) (WM) · [SketchyBar](https://github.com/FelixKratz/SketchyBar) (bar) · [JankyBorders](https://github.com/FelixKratz/JankyBorders) (focus border) · [Kitty](https://sw.kovidgoyal.net/kitty/) (terminal) · [LazyVim](https://www.lazyvim.org/) (editor) · [tmux](https://github.com/tmux/tmux) · [Karabiner](https://karabiner-elements.pqrs.org/) (Caps→Hyper) · zsh + [Starship](https://starship.rs/) (prompt) · [fastfetch](https://github.com/fastfetch-cli/fastfetch)
+**Stack:** [AeroSpace](https://github.com/nikitabobko/AeroSpace) (WM) · [SketchyBar](https://github.com/FelixKratz/SketchyBar) (bar) · [JankyBorders](https://github.com/FelixKratz/JankyBorders) (focus border) · [Kitty](https://sw.kovidgoyal.net/kitty/) (terminal) · [LazyVim](https://www.lazyvim.org/) (editor) · [tmux](https://github.com/tmux/tmux) · [Karabiner](https://karabiner-elements.pqrs.org/) (Caps→Hyper) · zsh + [Starship](https://starship.rs/) (prompt) · [yazi](https://github.com/sxyazi/yazi) (file manager) · [btop](https://github.com/aristocratos/btop) (sysmon) · [gh](https://cli.github.com/) (GitHub CLI) · [fastfetch](https://github.com/fastfetch-cli/fastfetch)
 
 Deployed into `$HOME` with [GNU Stow](https://www.gnu.org/software/stow/).
 
@@ -18,13 +18,15 @@ dotfiles/
 └── .config/
     ├── aerospace/             # tiling WM + keybinds
     ├── borders/               # JankyBorders style
+    ├── btop/                  # gruvbox theme
     ├── fastfetch/
     ├── karabiner/             # Caps→Hyper, Hyper-key app launchers
     ├── kitty/                 # gruvbox theme
     ├── nvim/                  # LazyVim
     ├── sketchybar/            # sketchybarrc + items/ + plugins/
     ├── starship.toml          # zsh prompt (gruvbox)
-    └── tmux/
+    ├── tmux/
+    └── yazi/                  # yazi.toml + theme.toml + package.toml
 ```
 
 ---
@@ -38,7 +40,8 @@ dotfiles/
 
 brew tap FelixKratz/formulae
 brew install sketchybar borders fastfetch stow tmux starship \
-             fd ripgrep zoxide eza bat fzf lazygit imagemagick
+             fd ripgrep zoxide eza bat fzf lazygit imagemagick \
+             yazi btop gh
 brew install --cask nikitabobko/tap/aerospace kitty karabiner-elements
 
 brew install --cask \
@@ -83,6 +86,16 @@ open -a "Karabiner-Elements"   # grant Input Monitoring on first launch
 exec zsh
 ```
 
+### 5. One-time tool setup
+
+```bash
+# yazi: install the gruvbox-dark flavor declared in .config/yazi/package.toml
+ya pkg install
+
+# gh: authenticate (browser flow, picks up the token in ~/.config/gh)
+gh auth login
+```
+
 ---
 
 ## Day-to-day
@@ -95,6 +108,9 @@ exec zsh
 | Hyper-key launchers | `Hyper+T` kitty · `Hyper+B` Vivaldi · `Hyper+S` Spotify |
 | tmux sessionizer | `Ctrl-f` (zsh) or `prefix+f` (tmux) |
 | Smart cd | `z <substring>` |
+| File manager | `yy` (yazi, exits to selected dir) |
+| System monitor | `top` (aliased to btop) |
+| Open PR in browser | `ghpr` |
 
 ---
 
