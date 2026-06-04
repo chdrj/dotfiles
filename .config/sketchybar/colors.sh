@@ -9,8 +9,9 @@ export WHITE=0xfff8f8f2          # Cream foreground (Dracula fg)
 export GHOST=0x33ffffff          # Ghost glass for borders / very subtle fills
 
 # Bar
-export BAR_COLOR=0xc8101218      # Smoked-glass charcoal
-export BAR_BORDER=0x22ffffff     # Hairline border
+export BAR_COLOR=0xe60d0f15       # Smoked-glass charcoal, near-solid for a flush look
+export BAR_BORDER=0x22ffffff      # Hairline border (capsules / legacy)
+export BAR_UNDERLINE=0x33bd93f9   # Faint Dracula-purple underline welds bar to desktop
 
 # Capsule (item background) tones
 export ITEM_BG_COLOR=0x22ffffff           # Subtle glass capsule

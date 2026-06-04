@@ -2,8 +2,10 @@
 
 source "$CONFIG_DIR/colors.sh"
 
-PERCENTAGE="$(pmset -g batt | grep -Eo "\d+%" | cut -d% -f1)"
-CHARGING="$(pmset -g batt | grep 'AC Power')"
+# Read battery state once, then parse both fields from it.
+BATT="$(pmset -g batt)"
+PERCENTAGE="$(printf '%s\n' "$BATT" | grep -Eo "\d+%" | cut -d% -f1)"
+CHARGING="$(printf '%s\n' "$BATT" | grep 'AC Power')"
 
 if [ "$PERCENTAGE" = "" ]; then
   exit 0

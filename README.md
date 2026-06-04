@@ -36,20 +36,18 @@ dotfiles/
 ### 1. Homebrew + packages
 
 ```bash
+# Install Homebrew
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-brew tap FelixKratz/formulae
-brew install sketchybar borders fastfetch stow tmux starship \
-             fd ripgrep zoxide eza bat fzf lazygit imagemagick \
-             yazi btop gh
-brew install --cask nikitabobko/tap/aerospace kitty karabiner-elements
+# Clone this repo (needed for the Brewfile, and later for stow)
+git clone https://github.com/chdrj/dotfiles.git ~/dotfiles
 
-brew install --cask \
-  font-caskaydia-cove-nerd-font \
-  font-hack-nerd-font \
-  font-cascadia-code \
-  sbarlv/sketchybar-app-font/sketchybar-app-font
+# Install everything — formulae, casks, and fonts — from the Brewfile
+brew bundle --file=~/dotfiles/Brewfile
 ```
+
+> The full package list lives in [`Brewfile`](Brewfile). Add a tool there and
+> re-run `brew bundle` to keep the toolchain reproducible.
 
 ### 2. Zsh plugins
 
@@ -63,7 +61,7 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH/custom/p
 ### 3. Stow the repo
 
 ```bash
-git clone https://github.com/chdrj/dotfiles.git ~/dotfiles
+# (repo already cloned in step 1)
 
 # Back up anything that would conflict.
 mkdir -p ~/dotfiles-backup
@@ -89,6 +87,11 @@ exec zsh
 ### 5. One-time tool setup
 
 ```bash
+# sketchybar-app-font: per-app workspace glyphs (not a brew cask).
+# Download the latest sketchybar-app-font.ttf release into ~/Library/Fonts.
+curl -fLo "$HOME/Library/Fonts/sketchybar-app-font.ttf" \
+  https://github.com/kvndrsslr/sketchybar-app-font/releases/latest/download/sketchybar-app-font.ttf
+
 # yazi: install the gruvbox-dark flavor declared in .config/yazi/package.toml
 ya pkg install
 

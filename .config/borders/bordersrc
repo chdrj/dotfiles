@@ -1,11 +1,14 @@
 #!/bin/bash
 
 options=(
-	style=round
-	width=4.0
-	hidpi=off
-	active_color="gradient(top_left=0xfffabd2f,bottom_right=0xffd65d0e)"
-	inactive_color="gradient(top_left=0x88928374,bottom_right=0x883c3836)"
+  style=round
+  width=5.0
+  hidpi=on
+  # Active: bright orchid (top-left) flowing into deep electric violet
+  # (bottom-right) — diagonal purple gradient across the window.
+  active_color="gradient(top_left=0xff8b5cf6,bottom_right=0xff4f46e5)"
+  # Inactive: muted, semi-transparent purple-grey so it recedes.
+  inactive_color="gradient(top_left=0x99544a85,bottom_right=0x99362c54)"
 )
 
 borders "${options[@]}"

@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+# ─── battery-hogs ─────────────────────────────────────────────
+# Rank the processes draining your battery the most, using macOS
+# "energy impact" — the same number Activity Monitor's Energy tab
+# shows. Prints a quick battery summary first.
+#
+# Usage:
+#   battery-hogs [N]      # show top N processes (default 12)
+#
+# How it works:
+#   • `pmset -g batt`  → current charge level + time remaining.
+#   • `top -l 2 -o power` samples the system twice. top's FIRST
+#     sample reports stats accumulated since boot (useless for
+#     "right now"), so we read the SECOND block and let top sort it
+#     by the `power` column. awk grabs everything after the last
+#     "PID …" header line, which is exactly that second block.
+#   • POWER is a *relative* score (CPU time weighted by wakeups,
+#     GPU use, etc.), not watts — higher just means more drain.
+#   • Sampling takes ~1s (the gap between top's two samples).
+
+set -uo pipefail
+
+count="${1:-12}"
+
+# Bold/reset only when writing to a real terminal (not when piped).
+if [ -t 1 ]; then bold=$(tput bold); reset=$(tput sgr0); else bold=""; reset=""; fi
+
+# ── Battery summary ──────────────────────────────────────────
+batt="$(pmset -g batt 2>/dev/null | sed -n '2p' | sed 's/^[[:space:]]*//')"
+printf '\n%sBattery:%s %s\n\n' "$bold" "$reset" "${batt:-unknown}"
+
+# ── Top energy-impact processes ──────────────────────────────
+printf '%sTop %s energy hogs (sampling ~1s)…%s\n' "$bold" "$count" "$reset"
+
+top -l 2 -n "$count" -o power -stats pid,command,cpu,power 2>/dev/null \
+  | awk '/^PID/ { buf = $0 ORS; cap = 1; next }   # reset at each header
+         cap     { buf = buf $0 ORS }              # collect rows after it
+         END     { printf "%s", buf }'             # keep only the last block

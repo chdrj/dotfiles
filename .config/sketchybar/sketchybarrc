@@ -1,6 +1,7 @@
 # ─────────────────────────────────────────────────────────────
 #  Neon Glass Terminal — sketchybar config
-#  Smoked-glass bar, per-metric accents, Hack Nerd Font variants.
+#  Edge-to-edge flush bar fused to the top, smoked-glass with a
+#  hairline underline, per-metric accents, Nerd Font variants.
 # ─────────────────────────────────────────────────────────────
 
 PLUGIN_DIR="$CONFIG_DIR/plugins"
@@ -9,20 +10,29 @@ ITEM_DIR="$CONFIG_DIR/items"
 source "$CONFIG_DIR/colors.sh"
 
 # ── Bar ──────────────────────────────────────────────────────
+# Flush, not floating: zero margin/offset and square corners weld
+# the bar to the top edge.
+#
+# sketchybar's bar border draws as a full rectangle (all 4 edges),
+# with no per-side control. To keep ONLY the bottom hairline we push
+# the other three edges off-screen:
+#   y_offset=-1 + height+1  → top border clipped above the screen
+#   margin=-1               → left/right borders clipped past the sides
+# Net drawn area is identical; only the bottom edge remains visible.
 sketchybar --bar \
   position=top \
-  height=36 \
-  corner_radius=14 \
-  margin=6 \
-  y_offset=4 \
-  blur_radius=24 \
+  height=35 \
+  corner_radius=0 \
+  margin=-1 \
+  y_offset=-1 \
+  blur_radius=30 \
   color=$BAR_COLOR \
-  border_color=$BAR_BORDER \
+  border_color=$BAR_UNDERLINE \
   border_width=1 \
-  shadow=on \
+  shadow=off \
   sticky=on \
-  padding_left=8 \
-  padding_right=8
+  padding_left=14 \
+  padding_right=14
 
 # ── Defaults applied to every subsequent item ───────────────
 default=(
@@ -36,7 +46,7 @@ default=(
   icon.padding_right=4
   label.padding_left=2
   label.padding_right=6
-  background.height=26
+  background.height=22
   background.corner_radius=9
   background.border_width=0
   background.drawing=off
@@ -48,7 +58,7 @@ sketchybar --default "${default[@]}"
 sketchybar --add event aerospace_workspace_change
 
 # ── Spotify event (broadcast by Spotify on play/pause/skip) ──
-sketchybar --add event spotify_change com.spotify.client.PlaybackStateChanged
+# sketchybar --add event spotify_change com.spotify.client.PlaybackStateChanged
 
 # ── Workspace pills (per monitor) ────────────────────────────
 for monitor in $(aerospace list-monitors --format "%{monitor-appkit-nsscreen-screens-id}"); do
@@ -66,7 +76,7 @@ for monitor in $(aerospace list-monitors --format "%{monitor-appkit-nsscreen-scr
         background.drawing=on \
         background.color=$WS_INACTIVE_BG \
         background.corner_radius=8 \
-        background.height=24 \
+        background.height=22 \
         background.border_color=$ITEM_BORDER \
         background.border_width=1 \
         icon="$sid" \
@@ -141,7 +151,7 @@ sketchybar --add item clock right \
     background.border_color=$ITEM_BORDER \
     background.border_width=1 \
     background.corner_radius=9 \
-    background.height=26 \
+    background.height=22 \
     width=120 \
   --subscribe clock clock_update system_woke
 
@@ -152,7 +162,7 @@ sketchybar --add item battery right \
     padding_right=15 \
     update_freq=120 \
     script="$PLUGIN_DIR/battery.sh" \
-    icon.font="Hack Nerd Font:Bold:15.0" \
+    icon.font="Hack Nerd Font:Bold:14.0" \
     icon.padding_left=4 \
     icon.padding_right=4 \
     label.font="Hack Nerd Font:Bold:12.0" \
@@ -166,7 +176,7 @@ sketchybar --add item wifi right \
     padding_right=6 \
     script="$PLUGIN_DIR/wifi.sh" \
     icon=󰖩 \
-    icon.font="Hack Nerd Font:Bold:15.0" \
+    icon.font="Hack Nerd Font:Bold:14.0" \
     icon.color=$WIFI_ACCENT \
     icon.padding_left=4 \
     icon.padding_right=4 \
@@ -179,7 +189,7 @@ sketchybar --add item volume right \
     padding_left=6 \
     padding_right=6 \
     script="$PLUGIN_DIR/volume.sh" \
-    icon.font="Hack Nerd Font:Bold:15.0" \
+    icon.font="Hack Nerd Font:Bold:14.0" \
     icon.color=$VOL_ACCENT \
     icon.padding_left=4 \
     icon.padding_right=4 \
@@ -188,27 +198,28 @@ sketchybar --add item volume right \
   --subscribe volume volume_change
 
   # ── Spotify now-playing (right) ──────────────
-sketchybar --add item spotify right \
-  --set spotify \
-    padding_left=6 \
-    padding_right=6 \
-    script="$PLUGIN_DIR/spotify.sh" \
-    drawing=off \
-    icon="󰓇" \
-    icon.font="Hack Nerd Font:Bold:15.0" \
-    icon.color=$SPOTIFY_ACCENT \
-    icon.padding_left=10 \
-    icon.padding_right=6 \
-    label.font="Cascadia Code:SemiBold:13.0" \
-    label.color=$WHITE \
-    label.padding_right=10 \
-    background.drawing=on \
-    background.color=$ITEM_BG_COLOR \
-    background.border_color=$ITEM_BORDER \
-    background.border_width=1 \
-    background.corner_radius=9 \
-    background.height=26 \
-  --subscribe spotify spotify_change mouse.clicked
+  # Disabled: event-driven, so this had ~no battery impact; removing it is cosmetic only.
+# sketchybar --add item spotify right \
+#   --set spotify \
+#     padding_left=6 \
+#     padding_right=6 \
+#     script="$PLUGIN_DIR/spotify.sh" \
+#     drawing=off \
+#     icon="󰓇" \
+#     icon.font="Hack Nerd Font:Bold:14.0" \
+#     icon.color=$SPOTIFY_ACCENT \
+#     icon.padding_left=10 \
+#     icon.padding_right=6 \
+#     label.font="Cascadia Code:SemiBold:13.0" \
+#     label.color=$WHITE \
+#     label.padding_right=10 \
+#     background.drawing=on \
+#     background.color=$ITEM_BG_COLOR \
+#     background.border_color=$ITEM_BORDER \
+#     background.border_width=1 \
+#     background.corner_radius=9 \
+#     background.height=22 \
+#   --subscribe spotify spotify_change mouse.clicked
 
 # ── Kick off the event-driven clock updater ─────────────────
 pkill -f "$PLUGIN_DIR/clock_updater.sh" 2>/dev/null

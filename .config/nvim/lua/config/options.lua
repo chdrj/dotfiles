@@ -9,7 +9,6 @@ opt.scrolloff = 8
 opt.sidescrolloff = 8
 opt.wrap = false
 opt.cursorline = true
-opt.colorcolumn = "80,120"
 opt.timeoutlen = 300
 opt.updatetime = 200
 opt.confirm = true

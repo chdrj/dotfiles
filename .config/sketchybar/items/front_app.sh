@@ -19,7 +19,7 @@ front_app=(
   background.border_color=$ITEM_BORDER
   background.border_width=1
   background.corner_radius=9
-  background.height=26
+  background.height=22
 )
 sketchybar --add item front_app left         \
            --set front_app "${front_app[@]}" \

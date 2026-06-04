@@ -17,7 +17,9 @@ fi
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
-eval "$(starship init zsh)"
+# Keep $PATH free of duplicates — this file gets re-sourced (e.g. `exec zsh`)
+# and every tool below prepends. `path` is the array tied to $PATH; -U dedupes.
+typeset -U path PATH
 
 plugins=(
 git 
@@ -50,7 +52,14 @@ if command -v tmux-sessionizer >/dev/null 2>&1; then
   bindkey -s '^f' 'tmux-sessionizer\n'
 fi
 
-# fzf: shell integration (key bindings + completion) + gruvbox palette
+source $ZSH/oh-my-zsh.sh
+
+# Starship prompt — initialized AFTER oh-my-zsh so it reliably owns the prompt
+# regardless of any OMZ theme (OMZ would otherwise clobber it if ZSH_THEME is set).
+eval "$(starship init zsh)"
+
+# fzf: shell integration (key bindings + completion) + gruvbox palette.
+# Sourced after oh-my-zsh so its ^T / ^R / Alt-C bindings aren't clobbered.
 if command -v fzf >/dev/null 2>&1; then
   source <(fzf --zsh)
   export FZF_DEFAULT_OPTS="
@@ -63,8 +72,6 @@ if command -v fzf >/dev/null 2>&1; then
   export FZF_CTRL_T_OPTS="--preview 'bat --color=always --style=numbers --line-range=:300 {}'"
   export FZF_ALT_C_OPTS="--preview 'eza --tree --icons --color=always {} | head -100'"
 fi
-
-source $ZSH/oh-my-zsh.sh
 
 # Aliases for eza + bat + lazygit
 alias ls="eza --icons --git --group-directories-first"
@@ -104,20 +111,27 @@ fi
 # Added by Antigravity
 export PATH="/Users/choidorjbayarkhuu/.antigravity/antigravity/bin:$PATH"
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/opt/homebrew/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
+# conda: lazy-loaded. The eager `conda shell.zsh hook` costs ~0.5s at EVERY
+# shell startup (it spawns Python), and base doesn't auto-activate — so there's
+# no reason to pay that up front. This stub runs the real init the first time
+# you call `conda`, replaces itself, then re-runs your command.
+#
+# NOTE: the `# >>> conda initialize >>>` managed markers were removed on purpose.
+# If you ever run `conda init zsh` again it will append a fresh eager block —
+# just delete that block and keep this function.
+conda() {
+  unfunction conda
+  __conda_setup="$('/opt/homebrew/anaconda3/bin/conda' 'shell.zsh' 'hook' 2>/dev/null)"
+  if [ $? -eq 0 ]; then
     eval "$__conda_setup"
-else
-    if [ -f "/opt/homebrew/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/opt/homebrew/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/opt/homebrew/anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
+  elif [ -f "/opt/homebrew/anaconda3/etc/profile.d/conda.sh" ]; then
+    . "/opt/homebrew/anaconda3/etc/profile.d/conda.sh"
+  else
+    export PATH="/opt/homebrew/anaconda3/bin:$PATH"
+  fi
+  unset __conda_setup
+  conda "$@"
+}
 
 export PATH="$HOME/.local/bin:$PATH"
 
